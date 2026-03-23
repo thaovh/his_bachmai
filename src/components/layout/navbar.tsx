@@ -20,7 +20,14 @@ import {
   ClipboardList,
   FileText,
   ArrowRightLeft,
-  ChevronDown
+  ChevronDown,
+  ChevronRight,
+  ShieldCheck,
+  Globe,
+  MapPin,
+  Map,
+  Settings2,
+  TestTube2
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -32,11 +39,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "../mode-toggle";
 
-const navItems = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: any;
+  subItems?: NavItem[];
+}
+
+const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   {
     name: 'Tiếp đón',
@@ -54,6 +71,41 @@ const navItems = [
   { name: 'Buồng bệnh', href: '/inpatient', icon: BedDouble },
   { name: 'Viện phí', href: '/billing', icon: CreditCard },
   { name: 'Kho', href: '/pharmacy', icon: Pill },
+  {
+    name: 'Hệ thống',
+    href: '/system',
+    icon: Settings,
+    subItems: [
+      {
+        name: 'Tài khoản',
+        href: '/system/accounts',
+        icon: User,
+        subItems: [
+          { name: 'Tài khoản', href: '/system/accounts/list', icon: User },
+          { name: 'Vai trò', href: '/system/accounts/roles', icon: ShieldCheck },
+        ]
+      },
+      {
+        name: 'Tổ chức',
+        href: '/system/org',
+        icon: Hospital,
+        subItems: [
+          { name: 'Quốc gia', href: '/system/org/countries', icon: Globe },
+          { name: 'Tỉnh', href: '/system/org/provinces', icon: MapPin },
+          { name: 'Xã', href: '/system/org/wards', icon: Map },
+        ]
+      },
+      {
+        name: 'Cấu hình',
+        href: '/system/config',
+        icon: Settings2,
+        subItems: [
+          { name: 'Phòng chỉ định - Thực hiện', href: '/system/config/exam-rooms', icon: TestTube2 },
+          { name: 'Phòng chỉ định - Lấy mẫu', href: '/system/config/sampling-rooms', icon: TestTube2 },
+        ]
+      }
+    ]
+  }
 ];
 
 export function Navbar() {
@@ -61,7 +113,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-slate-900 text-slate-50 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-primary-deep text-white shadow-sm">
       <div className="container mx-auto flex h-16 items-center px-4 gap-8">
         {/* Left Side: Logo + Nav */}
         <div className="flex items-center gap-8">
@@ -78,29 +130,53 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.subItems?.some(sub => pathname === sub.href));
+              const isItemActive = pathname === item.href || (item.subItems?.some(sub => 
+                pathname === sub.href || sub.subItems?.some(s => pathname === s.href)
+              ));
 
               if (item.subItems) {
                 return (
                   <DropdownMenu key={item.name}>
                     <DropdownMenuTrigger
                       className={cn(
-                        "px-4 py-2 h-9 text-sm font-medium rounded-md transition-colors hover:bg-slate-800 hover:text-white flex items-center gap-1 outline-none",
-                        isActive ? "bg-slate-800 text-white" : "text-slate-400"
+                        "px-4 py-2 h-9 text-sm font-medium rounded-md transition-colors hover:bg-primary-muted hover:text-white flex items-center gap-1 outline-none",
+                        isItemActive ? "bg-primary-muted text-white" : "text-white/70"
                       )}
                     >
                       {item.name}
-                      <ChevronDown className="h-3 w-3 opacity-50" />
+                      <ChevronDown className="h-3 w-3 opacity-80" />
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-56">
-                      {item.subItems.map((sub) => (
-                        <DropdownMenuItem key={sub.href} className="p-0">
-                          <Link href={sub.href} className="flex w-full items-center gap-2 px-2 py-1.5 cursor-pointer">
-                            <sub.icon className="h-4 w-4" />
-                            <span>{sub.name}</span>
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
+                    <DropdownMenuContent align="start" className="w-64">
+                      {item.subItems.map((sub) => {
+                        if (sub.subItems) {
+                          return (
+                            <DropdownMenuSub key={sub.name}>
+                              <DropdownMenuSubTrigger className="gap-2">
+                                <sub.icon className="h-4 w-4" />
+                                <span>{sub.name}</span>
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuSubContent className="w-64">
+                                {sub.subItems.map((s) => (
+                                  <DropdownMenuItem key={s.href} className="p-0">
+                                    <Link href={s.href} className="flex w-full items-center gap-2 px-2 py-1.5 cursor-pointer">
+                                      <s.icon className="h-4 w-4" />
+                                      <span>{s.name}</span>
+                                    </Link>
+                                  </DropdownMenuItem>
+                                ))}
+                              </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                          );
+                        }
+                        return (
+                          <DropdownMenuItem key={sub.href} className="p-0">
+                            <Link href={sub.href} className="flex w-full items-center gap-2 px-2 py-1.5 cursor-pointer">
+                              <sub.icon className="h-4 w-4" />
+                              <span>{sub.name}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 );
@@ -109,8 +185,8 @@ export function Navbar() {
               return (
                 <Link key={item.href} href={item.href} className="h-9">
                   <span className={cn(
-                    "px-4 py-2 block text-sm font-medium rounded-md transition-colors hover:bg-slate-800 hover:text-white",
-                    isActive ? "bg-slate-800 text-white" : "text-slate-400"
+                    "px-4 py-2 block text-sm font-medium rounded-md transition-colors hover:bg-primary-muted hover:text-white",
+                    isItemActive ? "bg-primary-muted text-white" : "text-white/70"
                   )}>
                     {item.name}
                   </span>
@@ -125,9 +201,9 @@ export function Navbar() {
           <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="relative h-8 w-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center outline-none overflow-hidden"
+              className="relative h-8 w-8 rounded-full bg-primary-muted hover:bg-primary border border-primary/20 flex items-center justify-center outline-none overflow-hidden"
             >
-              <User className="h-5 w-5 text-slate-400" />
+              <User className="h-5 w-5 text-white/80" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="font-normal">
@@ -162,25 +238,48 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-800 bg-slate-900 p-4 space-y-2 animate-in fade-in slide-in-from-top-4 overflow-y-auto max-h-[calc(100vh-4rem)]">
+        <div className="md:hidden border-t border-primary/20 bg-primary-deep p-4 space-y-2 animate-in fade-in slide-in-from-top-4 overflow-y-auto max-h-[calc(100vh-4rem)]">
           {navItems.map((item) => (
             <React.Fragment key={item.name}>
               {item.subItems ? (
                 <div className="space-y-1">
-                  <div className="px-4 py-2 text-base font-semibold text-slate-200 flex items-center gap-2">
+                  <div className="px-4 py-2 text-base font-semibold text-white flex items-center gap-2">
                     <item.icon className="h-5 w-5" />
                     {item.name}
                   </div>
-                  <div className="pl-6 space-y-1 border-l border-slate-800 ml-4">
+                  <div className="pl-6 space-y-1 border-l border-primary/20 ml-4">
                     {item.subItems.map((sub) => (
-                      <Link key={sub.href} href={sub.href} onClick={() => setIsMobileMenuOpen(false)}>
-                        <span className={cn(
-                          "block px-4 py-2 text-sm font-medium rounded-md",
-                          pathname === sub.href ? "bg-slate-800 text-white" : "text-slate-400 hover:bg-slate-800"
-                        )}>
-                          {sub.name}
-                        </span>
-                      </Link>
+                      <React.Fragment key={sub.name}>
+                        {sub.subItems ? (
+                          <div className="space-y-1">
+                            <div className="px-4 py-2 text-sm font-semibold text-white/90 flex items-center gap-2">
+                              <sub.icon className="h-4 w-4" />
+                              {sub.name}
+                            </div>
+                            <div className="pl-6 space-y-1 border-l border-primary/20 ml-2">
+                              {sub.subItems.map((s) => (
+                                <Link key={s.href} href={s.href} onClick={() => setIsMobileMenuOpen(false)}>
+                                  <span className={cn(
+                                    "block px-4 py-2 text-sm font-medium rounded-md",
+                                    pathname === s.href ? "bg-primary-muted text-white" : "text-white/70 hover:bg-primary-muted"
+                                  )}>
+                                    {s.name}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <Link href={sub.href} onClick={() => setIsMobileMenuOpen(false)}>
+                            <span className={cn(
+                              "block px-4 py-2 text-sm font-medium rounded-md",
+                              pathname === sub.href ? "bg-slate-800 text-white" : "text-slate-400 hover:bg-slate-800"
+                            )}>
+                              {sub.name}
+                            </span>
+                          </Link>
+                        )}
+                      </React.Fragment>
                     ))}
                   </div>
                 </div>
@@ -198,7 +297,7 @@ export function Navbar() {
           ))}
           <Separator className="bg-slate-800" />
           <Link href="/settings" onClick={() => setIsMobileMenuOpen(false)}>
-            <span className="block px-4 py-2 text-base font-medium text-slate-400 hover:bg-slate-800">
+            <span className="block px-4 py-2 text-base font-medium text-white/70 hover:bg-primary-muted">
               Cài đặt
             </span>
           </Link>

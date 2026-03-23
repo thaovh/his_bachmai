@@ -33,15 +33,15 @@ export function Sidebar() {
 
   return (
     <aside className={cn(
-      "relative flex flex-col border-r bg-slate-900 text-slate-50 transition-all duration-300 ease-in-out",
+      "relative flex flex-col border-r border-primary/20 bg-primary-deep text-white transition-all duration-300 ease-in-out",
       isCollapsed ? "w-16" : "w-64"
     )}>
       <div className="flex h-16 items-center px-4">
-        <Hospital className="h-8 w-8 text-blue-400" />
-        {!isCollapsed && <span className="ml-3 text-xl font-bold tracking-tight">HIS Bạch Mai</span>}
+        <Hospital className="h-8 w-8 text-primary-soft" />
+        {!isCollapsed && <span className="ml-3 text-xl font-bold tracking-tight text-white">HIS Bạch Mai</span>}
       </div>
 
-      <Separator className="bg-slate-800" />
+      <Separator className="bg-primary/20" />
 
       <ScrollArea className="flex-1 px-2 py-4">
         <nav className="flex flex-col gap-2">
@@ -52,8 +52,8 @@ export function Sidebar() {
             return (
               <Link key={item.href} href={item.href}>
                 <span className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-slate-800 hover:text-white",
-                  isActive ? "bg-slate-800 text-white" : "text-slate-400",
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-primary-muted hover:text-white",
+                  isActive ? "bg-primary-muted text-white" : "text-white/60",
                   isCollapsed && "justify-center"
                 )}>
                   <Icon className="h-5 w-5 shrink-0" />
@@ -68,7 +68,7 @@ export function Sidebar() {
       <div className="p-4">
         <Button
           variant="ghost"
-          className="w-full justify-start gap-3 px-3 text-slate-400 hover:bg-slate-800 hover:text-white"
+          className="w-full justify-start gap-3 px-3 text-white/60 hover:bg-primary-muted hover:text-white"
           onClick={() => console.log('logout')}
         >
           <LogOut className="h-5 w-5" />

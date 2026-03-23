@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
+import { Slot } from "@radix-ui/react-slot"
 
 import { cn } from "@/lib/utils"
 import { ChevronRightIcon, CheckIcon } from "lucide-react"
@@ -110,12 +111,15 @@ function DropdownMenuSubTrigger({
   className,
   inset,
   children,
+  asChild,
   ...props
 }: MenuPrimitive.SubmenuTrigger.Props & {
   inset?: boolean
+  asChild?: boolean
 }) {
+  const Comp = (asChild ? Slot : MenuPrimitive.SubmenuTrigger) as any
   return (
-    <MenuPrimitive.SubmenuTrigger
+    <Comp
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
@@ -126,7 +130,7 @@ function DropdownMenuSubTrigger({
     >
       {children}
       <ChevronRightIcon className="ml-auto" />
-    </MenuPrimitive.SubmenuTrigger>
+    </Comp>
   )
 }
 

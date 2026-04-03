@@ -73,8 +73,8 @@ export function SnomedDetailPane() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800">
-      <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-10 shadow-sm transition-colors">
+    <div className="flex flex-col h-full bg-slate-50 dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800 min-h-0 overflow-hidden">
+      <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-10 shadow-sm transition-colors shrink-0">
         <div className="flex items-center gap-2 font-semibold">
           <Languages className="h-4 w-4 text-primary" />
           Chi tiết & Dịch thuật
@@ -85,8 +85,8 @@ export function SnomedDetailPane() {
         </Button>
       </div>
 
-      <ScrollArea className="flex-1">
-        <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      <div className="flex-1 overflow-y-auto p-0 min-h-0 custom-scrollbar">
+        <div className="p-6 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 pb-20">
           {/* Concept Header */}
           <div className="space-y-3 relative group">
             <div className="flex items-center justify-between">
@@ -236,10 +236,10 @@ export function SnomedDetailPane() {
             </div>
           )}
         </div>
-      </ScrollArea>
+      </div>
 
        {/* Quick Footer Action */}
-       <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-center">
+       <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 text-center shrink-0">
           <Button variant="link" className="text-xs text-muted-foreground hover:text-primary">Xem chi tiết trên SNOMED International Browser</Button>
        </div>
     </div>

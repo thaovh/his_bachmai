@@ -108,12 +108,12 @@ export default function SnomedPage() {
       )}
 
       {/* 1. LEFT PANE: Hierarchy Tree (20%) */}
-      <div className="w-[20%] min-w-[250px] hidden md:block">
+      <div className="w-[20%] min-w-[250px] hidden md:block h-full flex flex-col min-h-0 overflow-hidden border-r border-slate-200 dark:border-slate-800">
         <SnomedHierarchy />
       </div>
 
       {/* 2. MIDDLE PANE: Search & List (45%) */}
-      <div className="flex-1 flex flex-col min-w-[400px] bg-white dark:bg-slate-900 shadow-sm z-0">
+      <div className="flex-1 flex flex-col min-w-[400px] h-full min-h-0 overflow-hidden bg-white dark:bg-slate-900 shadow-sm z-0">
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 space-y-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md sticky top-0">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold flex items-center gap-2">
@@ -171,7 +171,7 @@ export default function SnomedPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-y-auto min-h-0 custom-scrollbar">
           {isLoading && (
             <div className="flex flex-col items-center justify-center p-12 text-center h-full">
               <Loader2 className="h-8 w-8 animate-spin text-primary opacity-50 mb-4" />
@@ -277,7 +277,7 @@ export default function SnomedPage() {
       </div>
 
       {/* 3. RIGHT PANE: Details & Translation (35%) */}
-      <div className="w-[35%] min-w-[350px] hidden lg:block">
+      <div className="w-[35%] min-w-[350px] hidden lg:block h-full flex flex-col min-h-0 overflow-hidden border-l border-slate-200 dark:border-slate-800">
         <SnomedDetailPane />
       </div>
       

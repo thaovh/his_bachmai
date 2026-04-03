@@ -9,9 +9,8 @@ import {
   GitBranch
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useSnomedChildren } from '@/hooks/use-snomed';
+import { useSnomedChildren, useSnomedAncestors } from '@/hooks/use-snomed';
 import { useSnomedStore } from '@/hooks/use-snomed-store';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface TreeNodeProps {
   conceptId: string;
@@ -112,18 +111,34 @@ const TreeNode = ({ conceptId, term, level }: TreeNodeProps) => {
 };
 
 export function SnomedHierarchy() {
+  const { selectedConcept, expandNodes } = useSnomedStore();
+  const { data: ancestors } = useSnomedAncestors(selectedConcept?.conceptId || "");
+
+  // Tự động mở rộng các nhánh cha khi chọn một concept
+  React.useEffect(() => {
+    if (ancestors && ancestors.length > 0) {
+      const ancestorIds = ancestors.map(a => a.conceptId);
+      expandNodes(ancestorIds);
+      
+      // Bonus: Đảm bảo node hiện tại cũng được thêm vào nếu cần (thường sẽ mở cha của nó)
+      if (selectedConcept) {
+        expandNodes([selectedConcept.conceptId]);
+      }
+    }
+  }, [ancestors, expandNodes, selectedConcept]);
+
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-      <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 font-semibold">
+    <div className="flex flex-col h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 min-h-0 overflow-hidden">
+      <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 font-semibold shrink-0">
         <GitBranch className="h-4 w-4 text-primary" />
         Phân cấp SNOMED CT
       </div>
-      <ScrollArea className="flex-1 p-2">
-        <div className="space-y-1">
+      <div className="flex-1 overflow-y-auto p-2 min-h-0 custom-scrollbar">
+        <div className="space-y-1 pb-20">
           {/* Root node: SNOMED CT Concept */}
           <TreeNode conceptId="138875005" term="SNOMED CT Concept" level={0} />
         </div>
-      </ScrollArea>
+      </div>
     </div>
   );
 }

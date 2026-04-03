@@ -1,12 +1,10 @@
 'use client';
 
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { BedDouble } from "lucide-react";
 
 export default function InpatientPage() {
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Quản lý Buồng bệnh</h1>
           <p className="text-muted-foreground">Theo dõi danh sách bệnh nhân nội trú và phân phòng.</p>
@@ -27,6 +25,5 @@ export default function InpatientPage() {
           ))}
         </div>
       </div>
-    </DashboardLayout>
   );
 }

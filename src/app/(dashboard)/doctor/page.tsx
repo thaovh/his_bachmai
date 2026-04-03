@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Stethoscope, Eye, FileText, ClipboardList } from "lucide-react";
 import { Patient } from "@/lib/types";
 
@@ -72,8 +71,7 @@ export default function DoctorConsolePage() {
   });
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Phòng khám (Doctor Console)</h1>
@@ -154,6 +152,5 @@ export default function DoctorConsolePage() {
           </Card>
         </div>
       </div>
-    </DashboardLayout>
   );
 }

@@ -1,14 +1,12 @@
 'use client';
 
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { CreditCard, History, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function BillingPage() {
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Quản lý Viện phí</h1>
@@ -50,6 +48,5 @@ export default function BillingPage() {
           </Card>
         </div>
       </div>
-    </DashboardLayout>
   );
 }

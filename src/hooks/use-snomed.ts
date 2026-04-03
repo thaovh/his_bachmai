@@ -95,3 +95,19 @@ export function useSnomedParents(conceptId: string) {
     enabled: !!conceptId,
   });
 }
+
+export function useSnomedAncestors(conceptId: string) {
+  return useQuery<SnomedConcept[]>({
+    queryKey: ['snomed-ancestors', conceptId],
+    queryFn: async () => {
+      const response = await fetch(`/api/snomed/browser/MAIN/concepts/${conceptId}/ancestors?form=inferred`);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch SNOMED CT ancestors');
+      }
+
+      return response.json();
+    },
+    enabled: !!conceptId,
+  });
+}

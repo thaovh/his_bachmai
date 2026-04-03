@@ -6,6 +6,7 @@ interface SnomedState {
   setSelectedConcept: (concept: SnomedConcept | null) => void;
   expandedNodes: Set<string>;
   toggleNode: (conceptId: string) => void;
+  expandNodes: (conceptIds: string[]) => void;
   isEditing: boolean;
   setIsEditing: (isEditing: boolean) => void;
 }
@@ -22,6 +23,12 @@ export const useSnomedStore = create<SnomedState>((set) => ({
       } else {
         newExpanded.add(conceptId);
       }
+      return { expandedNodes: newExpanded };
+    }),
+  expandNodes: (conceptIds) =>
+    set((state) => {
+      const newExpanded = new Set(state.expandedNodes);
+      conceptIds.forEach(id => newExpanded.add(id));
       return { expandedNodes: newExpanded };
     }),
   isEditing: false,

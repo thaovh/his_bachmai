@@ -21,7 +21,6 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
 
 const patientSchema = z.object({
   name: z.string().min(2, "Họ tên phải có ít nhất 2 ký tự"),
@@ -54,7 +53,6 @@ export default function ReceptionPage() {
   }
 
   return (
-    <DashboardLayout>
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Tiếp đón bệnh nhân</h1>
@@ -179,6 +177,5 @@ export default function ReceptionPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
   );
 }

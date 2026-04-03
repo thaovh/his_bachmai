@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Pill, AlertTriangle, Package, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -15,8 +14,7 @@ const inventory = [
 
 export default function PharmacyPage() {
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Quản lý Kho Dược</h1>
@@ -93,6 +91,5 @@ export default function PharmacyPage() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
   );
 }

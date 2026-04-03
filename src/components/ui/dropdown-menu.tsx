@@ -15,12 +15,17 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
   return <MenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
 }
 
-function DropdownMenuTrigger({ className, ...props }: MenuPrimitive.Trigger.Props) {
+function DropdownMenuTrigger({
+  className,
+  asChild,
+  ...props
+}: MenuPrimitive.Trigger.Props & { asChild?: boolean }) {
+  const Comp = asChild ? Slot : MenuPrimitive.Trigger
   return (
-    <MenuPrimitive.Trigger 
-      data-slot="dropdown-menu-trigger" 
+    <Comp
+      data-slot="dropdown-menu-trigger"
       className={cn("outline-none cursor-pointer", className)}
-      {...props} 
+      {...props}
     />
   )
 }
@@ -84,13 +89,16 @@ function DropdownMenuItem({
   className,
   inset,
   variant = "default",
+  asChild,
   ...props
 }: MenuPrimitive.Item.Props & {
   inset?: boolean
   variant?: "default" | "destructive"
+  asChild?: boolean
 }) {
+  const Comp = asChild ? Slot : MenuPrimitive.Item
   return (
-    <MenuPrimitive.Item
+    <Comp
       data-slot="dropdown-menu-item"
       data-inset={inset}
       data-variant={variant}

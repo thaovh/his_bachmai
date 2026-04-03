@@ -27,7 +27,9 @@ import {
   MapPin,
   Map,
   Settings2,
-  TestTube2
+  TestTube2,
+  Database,
+  BookOpen
 } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -102,6 +104,14 @@ const navItems: NavItem[] = [
         subItems: [
           { name: 'Phòng chỉ định - Thực hiện', href: '/system/config/exam-rooms', icon: TestTube2 },
           { name: 'Phòng chỉ định - Lấy mẫu', href: '/system/config/sampling-rooms', icon: TestTube2 },
+        ]
+      },
+      {
+        name: 'Danh mục',
+        href: '/system/dictionaries',
+        icon: Database,
+        subItems: [
+          { name: 'SNOMED CT', href: '/system/dictionaries/snomed', icon: BookOpen },
         ]
       }
     ]
